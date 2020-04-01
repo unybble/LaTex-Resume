@@ -1,0 +1,347 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Developer CV - JA Version
+% LaTeX Template
+% Version 1.0 (28/1/19)
+%
+% This template originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Jan Vorisek (jan@vorisek.me)
+% Based on a template by Jan Küster (info@jankuester.com)
+% Modified for LaTeX Templates by Vel (vel@LaTeXTemplates.com) 
+% Modified further for personal use by Jen Anderson (andersonn.jen@gmail.com)
+%
+% License:
+% The MIT License (see included LICENSE file)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[9pt]{developercv} % Default font size, values from 8-12pt are recommended
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{xcolor}
+\usepackage{subcaption}
+\usepackage{paralist}
+\usepackage{pagecolor}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\definecolor{backColor}{HTML}{dfdfdf}
+
+\newpagecolor{backColor}
+%----------------------------------------------------------------------------------------
+%	TITLE AND CONTACT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.45\textwidth} % 45% of the page width for name
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% If your name is very short, use just one of the lines below
+	% If your name is very long, reduce the font size or make the minipage wider and reduce the others proportionately
+	\colorbox{black}{{\HUGE\textcolor{white}{\textbf{\MakeUppercase{Jen}}}}} % First name
+	
+	\colorbox{black}{{\HUGE\textcolor{white}{\textbf{\MakeUppercase{Anderson}}}}} % Last name
+	
+	\vspace{6pt}
+	
+	{\huge Software Engineering Manager} % Career or current job title
+\end{minipage}
+\begin{minipage}[t]{0.3\textwidth} % 27.5% of the page width for the first row of icons
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the text
+	% Other icons can be found by referring to fontawesome.pdf (supplied with the template) and using the word after \fa in the command for the icon you want
+	\icon{MapMarker}{12}{Palatine, IL}\\
+	\icon{Phone}{12}{+1 708 945 2908}\\
+	\icon{At}{12}{\href{mailto:andersonn.jen@gmail.com}{andersonn.jen@gmail.com}}\\	
+\end{minipage}
+\begin{minipage}[t]{0.275\textwidth} % 27.5% of the page width for the second row of icons
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	% The first parameter is the FontAwesome icon name, the second is the box size and the third is the text
+	% Other icons can be found by referring to fontawesome.pdf (supplied with the template) and using the word after \fa in the command for the icon you want
+	\icon{Globe}{12}{\href{https://andersonnjen.com}{andersonnjen.com}}\\
+	\icon{Github}{12}{\href{https://github.com/unybble}{github.com/unybble}}\\
+	\icon{Twitter}{12}{\href{https://twitter.com/@unybble}{@unybble}}\\
+\end{minipage}
+
+\vspace{0.5cm}
+
+%----------------------------------------------------------------------------------------
+%	INTRODUCTION, SKILLS AND TECHNOLOGIES
+%----------------------------------------------------------------------------------------
+
+\cvsect{Who Am I?}
+
+\begin{minipage}[t]{0.4\textwidth} % 40% of the page width for the introduction text
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+Hands-on and encouraging Software Engineering Manager with 10+ years experience coordinating and executing projects, building teams, and creating valuable, cost-effective product. A practiced process-maker, experienced with data analytics and statistical testing, lean code architecture, effective leadership and teamwork. Strongly knowledgeable in the Microsoft stack and open-source FLOSS technologies.
+\end{minipage}
+\hfill % Whitespace between
+\begin{minipage}[t]{0.5\textwidth} % 50% of the page for the skills bar chart
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	\begin{barchart}{5.5}
+		\baritem{C\#}{100}
+		\baritem{SQL}{70}
+		\baritem{Vue.js}{60}
+		\baritem{Git/Git Flow}{80}
+		\baritem{Analytics}{75}
+		\baritem{GoCD/CICD}{60}
+	\end{barchart}
+\end{minipage}
+
+%\begin{center}
+%	\bubbles{5/Eclipse, 6/git, 4/Office, 3/Inkscape, 3/Blender}
+%\end{center}
+
+%----------------------------------------------------------------------------------------
+% 	WHEEL  ALLOCATION
+% Adjusts the size of the wheel:
+\def\innerradius{1.2cm}
+\def\outerradius{1.6cm}
+
+\newcommand{\wheelchart}[2]{
+    % Calculate total
+    \pgfmathsetmacro{\totalnum}{0}
+    \foreach \value/\colour/\name in {#1} {
+        \pgfmathparse{\value+\totalnum}
+        \global\let\totalnum=\pgfmathresult
+    }
+
+\begin{tikzpicture}
+
+    \node[align=center,text width=2*\innerradius]
+    {~{#2}}; % <--- (name is now defined by second     option of the command \wheelchart
+
+  % Calculate the thickness and the middle line of the wheel
+      \pgfmathsetmacro{\wheelwidth}{\outerradius-\innerradius}
+      \pgfmathsetmacro{\midradius}{(\outerradius+\innerradius)/2}
+
+      % Rotate so we start from the top
+      \begin{scope}[rotate=90]
+
+      % Loop through each value set. \cumnum keeps track of where we are in the wheel
+      \pgfmathsetmacro{\cumnum}{0}
+      \foreach \value/\colour/\name in {#1} {
+            \pgfmathsetmacro{\newcumnum}{\cumnum + \value/\totalnum*360}
+
+            % Calculate the percent value
+            \pgfmathsetmacro{\percentage}{\value/\totalnum*100}
+            % Calculate the mid angle of the colour segments to place the labels
+            \pgfmathsetmacro{\midangle}{-(\cumnum+\newcumnum)/2}
+
+            % This is necessary for the labels to align nicely
+            \pgfmathparse{
+               (-\midangle<180?"west":"east")
+            } \edef\textanchor{\pgfmathresult}
+            \pgfmathsetmacro\labelshiftdir{1-2*(-\midangle>180)}
+
+            % Draw the color segments. Somehow, the \midrow units got lost, so we add 'pt' at the end. Not nice...
+            \fill[\colour] (-\cumnum:\outerradius) arc (-\cumnum:-(\newcumnum):\outerradius) --
+            (-\newcumnum:\innerradius) arc (-\newcumnum:-(\cumnum):\innerradius) -- cycle;
+
+            % Draw the data labels
+   %         \draw  [*-,thin] node [append after command={(\midangle:\midradius pt) -- (\midangle:\outerradius + 1ex) -- (\tikzlastnode)}] at (\midangle:\outerradius + 1ex) [xshift=\labelshiftdir*0.5cm,inner sep=0pt, outer sep=0pt, ,anchor=\textanchor]{\name: \pgfmathprintnumber{\percentage}\%};
+
+
+            % Set the old cumulated angle to the new value
+            \global\let\cumnum=\newcumnum
+        }
+
+      \end{scope}
+%      \draw[gray] (0,0) circle (\outerradius) circle (\innerradius);
+    \end{tikzpicture}
+    }
+     \cvsect{Effort Allocation}
+
+ \begin{figure}[!ht]
+ 
+\captionsetup[subfigure]{labelformat=empty}
+\begin{subfigure}{.3\textwidth}
+\centering
+\wheelchart{20/gray/Front-End,  40/white/Back-End,  40/black/SQL}
+{\colorbox{lightgray}{
+\textcolor{darkgray}{Front-End}}
+\break
+\colorbox{lightgray}{
+\textcolor{white}{Back-End}}
+\break
+\colorbox{lightgray}{
+\textcolor{black}{SQL}}}
+\caption{\textbf{STACK}}
+\end{subfigure}%
+\begin{subfigure}{.3\textwidth}
+\centering
+\wheelchart{50/gray/Coding, 30/white/Architecture,  20/black/Documentation}
+{\colorbox{lightgray}{
+\textcolor{darkgray}{Coding}}
+\break
+\colorbox{lightgray}{
+\textcolor{white}{Architecture}}
+\break
+\colorbox{lightgray}{
+\textcolor{black}{Docs}}}
+\caption{\textbf{CODE BASE}}
+\end{subfigure}%
+\begin{subfigure}{.3\textwidth}
+\centering
+\wheelchart{50/white/Hands-On,  50/black/Collaboration}
+{
+\colorbox{lightgray}{
+\textcolor{white}{Hands-On}}
+\break
+\colorbox{lightgray}{
+\textcolor{black}{Collaboration}}}
+\caption{\textbf{DAILY CHARGE}}
+\end{subfigure}%%\caption{Two subfigures}
+\end{figure}
+
+
+      
+     
+
+%----------------------------------------------------------------------------------------
+%	EXPERIENCE
+%----------------------------------------------------------------------------------------
+
+\cvsect{Experience}
+
+\begin{entrylist}
+	\entry
+		{01/2016 - Present}
+		{Director of Software Engineering}
+		{ECRA Group Inc. | Schaumburg IL}
+		{
+		 \texttt{MSSQL}\slashsep\texttt{MariaDB}\slashsep\texttt{C\#}\slashsep\texttt{Vue.js}\slashsep\texttt{REST API}\slashsep\texttt{Agile}\slashsep\texttt{Git}\slashsep\texttt{SCRUM}\\
+	 \begin{compactitem}
+        \item Responsible for leading all software-related projects related to the ECRISS platform through direct supervision of application development.
+        \item Directed a group of 6 - 10 developers and professionals in reaching company objectives in a timely manner.
+        \item Developing and implementing organized processes for improvement of team efficiency and producing high-quality deliverables. 
+        \item Trained all company personnel in novel implementation of AGILE best practices with Kanban and burn-down charts.
+        \item   Involved in architecture of new product solutions, code reviews, and organic, seamless upgrades of legacy code. 
+        \item Responsible for hiring new team members and conducting training and performance reviews. 
+        \item Developed automated tools (SlackBot) within the Agile framework to increase and forecast team productivity.
+        \item Developed robust system of near-automatic feature documentation.
+        \item Reported status of team to Product, VP of Technology, and CEO on a regular basis.
+    \end{compactitem}
+    
+}
+	\entry
+		{05/2014 - 12/2015}
+		{Software Engineer in Data Science}
+		{ECRA Group Inc. | Rosemont IL}
+		{
+		\texttt{WebServices}\slashsep\texttt{JS}\slashsep\texttt{Python}\slashsep\texttt{CSS}
+		 \begin{compactitem}
+		 \item Built and managed ECRISS portal, debugged and refactored legacy code. 
+		 \item Developed testing protocols and implemented best practice coding standards. 
+		 \item Built data analysis tools using basic statistical methodology for clients and associates.
+		 \end{compactitem}
+		 }
+	\entry
+		{2011 - present \\\footnotesize{part time}}
+		{Lecturer}
+		{Purdue University Northwest | Hammond IN}
+		{
+		\texttt{R-Studio}\slashsep\texttt{SPSS}\slashsep\texttt{Google G-Suite}
+		 \begin{compactitem}
+		\item Responsible for teaching an online version of statistics 101 covering all of the behavioral methods: descriptives, distribution types, percentile rank with z-score normalization, odds-ratio, and parametric and non-parametric statistical testing. 
+		\item Developed the "master" course from scratch, which is currently used to train all incoming nursing students. 
+		\item Trained faculty to create and copy content into their individual courses, enforcing a standard format  and structure to deliver to students. 
+		 \end{compactitem}}
+
+	\entry
+		{10/2019 - 12/2019}
+		{Independent Consultant}
+		{FTG-Company | Tokyo Japan}
+		 {
+		 \texttt{Ruby}\slashsep\texttt{AWS S3/Lambda}\slashsep\texttt{CircleCI}\slashsep\texttt{Git}
+		 \begin{compactitem}
+		 \item Implemented 'Franchise' form within existing SPA Ruby on Rails using Middleman. 
+		 \item Updates to lambda function and S3 storage to route incoming form submissions.  	
+		 		 \end{compactitem}
+}	
+	
+	\entry
+		{2013 - present \\\footnotesize{part time}}
+		{Research Assistant}
+		{Carthage Vision Lab | Kenosha WI}
+		{
+		\texttt{Matlab}\slashsep\texttt{Dropbox}\slashsep\texttt{Psychophystics Toolbox}\slashsep\texttt{PsychoPy}
+		 \begin{compactitem}
+		 \item Wrote and executed psychophysics vision experiments in MatLab Psychophysics Toolbox and PsychoPy3. 
+		 \item Maintained documentation for revolving students. 
+		 \item Wrote data analysis programs to process large amounts of data generated by experiments. 
+		 \item Attended conferences to present findings of experiments. 
+		 \end{compactitem}		
+		}
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	EDUCATION
+%----------------------------------------------------------------------------------------
+
+\cvsect{Education}
+
+\begin{entrylist}
+	\entry
+		{2007 -- 2013}
+		{Doctorate of Philosophy}
+		{University of Illinois at Chicago}
+		{Degree in Behavioral Neuroscience}
+	\entry
+		{2008 -- 2013}
+		{Masters Degree}
+		{University of Illinois at Chicago}
+		{Degree in Computer Science}
+	\entry
+		{2007 -- 2010}
+		{Masters Degree}
+		{University of Illinois at Chicago}
+		{Behavioral Neuroscience}
+	\entry
+		{2002 -- 2007}
+		{Bachelors Degree}
+		{University of Illinois at Chicago}
+		{Psychology (Minor in Computer Science)}
+\end{entrylist}
+
+%----------------------------------------------------------------------------------------
+%	ADDITIONAL INFORMATION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}[t]{0.3\textwidth}
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+
+	\cvsect{Languages}
+	
+	\textbf{English} - native\\
+	\textbf{Italian} - limited working proficiency
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\textwidth}
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	\cvsect{Hobbies}
+	
+	I love triathlon, lifting weights, and learning. I strive to continuously improve myself as a person.
+	\end{minipage}
+\hfill
+\begin{minipage}[t]{0.3\textwidth}
+	\vspace{-\baselineskip} % Required for vertically aligning minipages
+	
+	\cvsect{Women in STEM}
+	
+	I am an advocate for encouraging women in STEM and am invited to speak at various events in Chicago.
+\end{minipage}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
