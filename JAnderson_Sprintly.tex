@@ -8,6 +8,7 @@
 \usepackage{pgfmath}
 \usetikzlibrary{decorations.text, arrows.meta,calc,shadows.blur,shadings}
 \renewcommand*\familydefault{\sfdefault} % Set font to serif family
+\usepackage{pagecolor}
 
 % arctext from Andrew code with modifications:
 %Variables: 1: ID, 2:Style 3:box height 4: Radious 5:start-angl 6:end-angl 7:text {format along path} 
@@ -52,6 +53,9 @@ arc (#6:#5:#4cm-#3) coordinate (below #1)
 }
 
 \begin{document}
+\definecolor{backColor}{HTML}{f4f4f4}
+
+\newpagecolor{backColor}
     \begin{tikzpicture}[
         % Environment Cfg
         font=\sf    \scriptsize,
